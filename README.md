@@ -2,6 +2,9 @@
 this repository is a class example used to gain
 experience with source control and TypeScript.
 
+## Live Website
+Check out the live website hosted by [GitHub Pages](https://azael-hue.github.io/Bookstore-Exercise/)
+
 ## Getting Started
 
 ### Installing TypeScript
