@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book List</title>
     <script defer src="js/main.js"></script>
 </head>
-<body>
 
+<body>
+    <h2>Add a Book</h2>
+    <form>
+        <label for="isbn">ISBN</label>
+        <input id="isbn" type="text">
+        <span class="error-msg"></span>
+        <br>
+
+        <label for="title">Title</label>
+        <input id="title" type="text">
+        <span class="error-msg"></span>
+        <br>
+
+        <label for="price">Price</label>
+        <input id="price" type="number" step="0.01">
+        <span class="error-msg"></span>
+        <br>
+
+        <label for="release-date">Release Date</label>
+        <input id="release-date" type="date">
+        <span class="error-msg"></span>
+        <br>
+
+        <button type="button" onclick="">Submit Book</button>
+    </form>
 
 </body>
+
 </html>
