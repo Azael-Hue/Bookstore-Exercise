@@ -24,7 +24,7 @@ class Book {
     releaseDate: Date;
 }
 
-window.onload = function() {
+window.onload = function () {
     // Set up a button click for add book form
     let addBookButton = document.querySelector("#add-book") as HTMLButtonElement;
     addBookButton.onclick = processBook;
@@ -55,23 +55,23 @@ function getBook(): Book {
     let releaseDateTextBox = document.querySelector("#release-date") as HTMLInputElement;
 
     // Validate data
-    let isValidData:boolean = true;
+    let isValidData: boolean = true;
 
     // Validate the ISBN
-    let isbn:string = isbnTextBox.value;
+    let isbn: string = isbnTextBox.value;
     if (!isValidIsbn(isbn)) {
         isValidData = false;
         isbnTextBox.nextElementSibling.textContent = "ISBN must be 13 digits only";
     }
 
     // Validate the title
-    let title:string = titleTextBox.value;
+    let title: string = titleTextBox.value;
     if (title.trim() == "") {
         isValidData = false;
         let titleErrorSpan = titleTextBox.nextElementSibling;
         titleErrorSpan.textContent = "You must provide a title";
     }
-    
+
     // Validate the price
     let price = parseFloat(priceTextBox.value);
     if (isNaN(price) || price < 0) {
@@ -98,7 +98,7 @@ function getBook(): Book {
         // issues. This solution resolves the timezone issue
         // Split dater string into an array "2024-6-15"
         // Result would be {"2024", "6", "15"}
-        const dateParts:string[] = releaseDate.split('-');
+        const dateParts: string[] = releaseDate.split('-');
         const year = parseInt(dateParts[0]);
         const month = parseInt(dateParts[1]) - 1; // subtract 1 because month are index based
         const day = parseInt(dateParts[2]);
@@ -116,7 +116,7 @@ function getBook(): Book {
  * @param data The string to bne validates
  * @returns True if the data is a valid ISBN 13 number
  */
-function isValidIsbn(data:string) {
+function isValidIsbn(data: string) {
     let regex = /^\d{13}$/; // match 13 digits exactly
     return regex.test(data);
 }
@@ -130,14 +130,14 @@ function addBookToWebpage(b: Book) {
     console.log(b);
 
     // Add the book to the web page
-    let bookDiv:HTMLDivElement = document.createElement("div");
+    let bookDiv: HTMLDivElement = document.createElement("div");
 
     let titleHeading = document.createElement("h2");
     titleHeading.textContent = `${b.title} : ${b.isbn}`;
     // Add h2 to book div <div><h2>Title : ISBN</h2></div>
-    bookDiv.appendChild(titleHeading); 
+    bookDiv.appendChild(titleHeading);
 
-    let bookDescription:HTMLParagraphElement = document.createElement("p");
+    let bookDescription: HTMLParagraphElement = document.createElement("p");
     const currencyFormatter = new Intl.NumberFormat('en-US', {
         style: "currency",
         currency: "USD",
@@ -158,32 +158,20 @@ function addBookToWebpage(b: Book) {
  * if no books are currently stored a new list will be created and stored
  * @param b The book will be added to
  */
-function addBookToStorage(b:Book):void {
+function addBookToStorage(b: Book): void {
     const BookStorageKey = "Books";
     // Read existing books out of storage
     let bookData = localStorage.getItem(BookStorageKey);
 
-    // if bookData is null, the "Books" key did not exist
-    if (bookData == null) {
-        // Create a new list and add our current book
-        let books:Book[] = [];
-        books.push(b);
+    // Initialize with existing bookData is not null, or mpty array if null
+    // This is a JS ternary/conditional operator
+    let books: Book[] = bookData ? JSON.parse(bookData) : [];
 
-        // Add a localStorage
-        bookData = JSON.stringify(books);
-        localStorage.setItem(BookStorageKey, bookData);
-    }
-    else{
-        // Parse string into a list of books and add new book to the list
-        // store the newly modified list back in storage
-        let books:Book[] = JSON.parse( bookData );
-        books.push(b);
+    books.push(b);
 
-        // Add back to localStorage
-        bookData = JSON.stringify(books);
-        localStorage.setItem(BookStorageKey, bookData);
-    }
-
+    // Add a localStorage
+    bookData = JSON.stringify(books);
+    localStorage.setItem(BookStorageKey, bookData);
 }
 
 /**
